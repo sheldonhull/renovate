@@ -15,4 +15,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.2
         with:
-          config_file_path: default.json5
+          config_file_path: renovate.json5
