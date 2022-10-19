@@ -118,7 +118,7 @@
         matchPaths: [
           'aqua.yaml',
           'registry.yaml',
-          'private_dot_config/aqua/registry.yaml'
+          'private_dot_config/aqua/registry.yaml',
           'private_dot_config/aqua/registry.yaml'
         ],
         groupName: 'aqua-packages',
