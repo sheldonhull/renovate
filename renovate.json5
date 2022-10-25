@@ -64,9 +64,9 @@
         matchPaths: [
           'magefiles'
         ],
-        groupName: 'mage-tooling',
-        commitMessageTopic: '☁️ magefiles {{depName}}'
-
+        groupName: 'mage-tooling-magetools',
+        commitMessageTopic: '☁️ magefiles {{depName}}',
+        matchUpdateTypes: ['minor', 'patch']
       },
       {
         matchPackagePatterns: [
@@ -75,7 +75,6 @@
         groupName: 'mage-tooling-magetools',
         commitMessageTopic: '🤖 magetools {{depName}}',
         automerge: true,
-        automergeType: 'branch',
         matchUpdateTypes: ['minor', 'patch']
       },
       {
@@ -123,7 +122,6 @@
         ],
         groupName: 'aqua-packages',
         automerge: true,
-        automergeType: 'branch',
         commitMessageTopic: '🤖 aqua tooling',
         matchUpdateTypes: ['minor', 'patch']
       }
