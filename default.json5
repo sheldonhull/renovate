@@ -2,6 +2,7 @@
     $schema: 'https://docs.renovatebot.com/renovate-schema.json',
     extends: [
       'config:base',
+      'schedule:automergeDaily',
       'schedule:earlyMondays',
       ':semanticCommitTypeAll(chore)',
       'github>whitesource/merge-confidence:beta',
@@ -24,7 +25,7 @@
       'gomodTidy',
       'gomodUpdateImportPaths'
     ],
-    prCreation: 'status-success', // With prCreation set to not-pending, Renovate waits until all tests have finished running, and only then creates the PR. When you get the PR notification, you can take action immediately, as you have the full test results.
+    prCreation: 'not-pending', // status-success -- this leads to prs not getting created if failed, make them anyway. With prCreation set to not-pending, Renovate waits until all tests have finished running, and only then creates the PR. When you get the PR notification, you can take action immediately, as you have the full test results.
     onboardingPrTitle: 'chore(deps): onboard with renovate',
     gomod: {
       enabled: true,
@@ -66,7 +67,8 @@
         ],
         groupName: 'mage-tooling-magetools',
         commitMessageTopic: '☁️ magefiles {{depName}}',
-        matchUpdateTypes: ['minor', 'patch']
+        matchUpdateTypes: ['minor', 'patch'],
+        prPriority: -1
       },
       {
         matchPackagePatterns: [
@@ -75,7 +77,9 @@
         groupName: 'mage-tooling-magetools',
         commitMessageTopic: '🤖 magetools {{depName}}',
         automerge: true,
-        matchUpdateTypes: ['minor', 'patch']
+        matchUpdateTypes: ['minor', 'patch'],
+        prPriority: -1
+
       },
       {
         matchPaths: [
@@ -84,7 +88,8 @@
         groupName: 'github-actions',
         automerge: true,
         commitMessageTopic: '🤖 github actions {{depName}}',
-        matchUpdateTypes: ['minor', 'patch']
+        matchUpdateTypes: ['minor', 'patch'],
+        prPriority: -1
       },
       {
         matchManagers: [
@@ -123,7 +128,8 @@
         groupName: 'aqua-packages',
         automerge: true,
         commitMessageTopic: '🤖 aqua tooling',
-        matchUpdateTypes: ['minor', 'patch']
+        matchUpdateTypes: ['minor', 'patch'],
+        prPriority: -1
       }
     ]
   }
