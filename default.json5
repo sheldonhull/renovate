@@ -1,129 +1,195 @@
 {
-    $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-    extends: [
-      'config:base',
-      'schedule:earlyMondays',
-      ':semanticCommitTypeAll(chore)',
-      'github>whitesource/merge-confidence:beta',
-      'github>aquaproj/aqua-renovate-config#1.2.6'
-    ],
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:base',
+    'schedule:earlyMondays',
+    ':semanticCommitTypeAll(chore)',
+    'github>whitesource/merge-confidence:beta',
+    'github>aquaproj/aqua-renovate-config#1.2.6',
+    'helpers:pinGitHubActionDigests',
+    'regexManagers:githubActionsVersions',
+    'regexManagers:dockerfileVersions',
+    ':enableVulnerabilityAlerts',
+    'group:linters',
+  ],
+  labels: [
+    'dependencies',
+  ],
+  binarySource: 'docker',
+  semanticCommits: 'enabled',
+  pruneStaleBranches: true,
+  rebaseWhen: 'behind-base-branch',
+  semanticCommitType: 'chore',
+  semanticCommitScope: 'deps',
+  platformAutomerge: true,
+  automergeStrategy: 'squash',
+  unicodeEmoji: true,
+  rangeStrategy: 'pin',
+  postUpdateOptions: [
+    'gomodTidy',
+    'gomodUpdateImportPaths',
+  ],
+  prCreation: 'not-pending',
+  onboardingPrTitle: 'chore(deps): onboard with renovate',
+  gomod: {
+    enabled: true,
+    commitMessageTopic: '⬆️ golang module {{depName}}',
+  },
+  docker: {
+    enabled: true,
+    commitMessageTopic: '⬆️ docker update 🐳 {{depName}}',
+  },
+  vulnerabilityAlerts: {
+    enabled: true,
+    prCreation: 'immediate',
     labels: [
-      'dependencies'
+      'security',
     ],
-    binarySource: 'docker',
-    semanticCommits: 'enabled',
-    pruneStaleBranches: true,
-    rebaseWhen: 'behind-base-branch',
-    semanticCommitType: 'chore',
-    semanticCommitScope: 'deps',
-    platformAutomerge: true,
-    automergeStrategy: 'squash',
-    unicodeEmoji: true,
-    rangeStrategy: 'pin',
-    postUpdateOptions: [
-      'gomodTidy',
-      'gomodUpdateImportPaths'
+  },
+  npm: {
+    commitMessageTopic: '⬆️ npm update {{depName}}',
+    fileMatch: [
+      '(^|/)package.json$',
     ],
-    prCreation: 'status-success', // With prCreation set to not-pending, Renovate waits until all tests have finished running, and only then creates the PR. When you get the PR notification, you can take action immediately, as you have the full test results.
-    onboardingPrTitle: 'chore(deps): onboard with renovate',
-    gomod: {
-      enabled: true,
-      commitMessageTopic: '⬆️ golang module {{depName}}'
-    },
-    docker: {
-      enabled: true,
-      commitMessageTopic: '⬆️ docker update 🐳 {{depName}}'
-    },
-    vulnerabilityAlerts: {
-      enabled: true,
-      labels: [
-        'security'
-      ]
-    },
-    npm: {
-      commitMessageTopic: '⬆️ npm update {{depName}}',
-      fileMatch: [
-        '(^|/)package.json$'
+    rollbackPrs: true,
+    versioning: 'npm',
+  },
+  terraform: {
+    commitMessageTopic: '⬆️ terraform update {{depName}}',
+    enabled: true,
+  },
+  major: {
+    dependencyDashboardApproval: true,
+  },
+  minor: {
+    automerge: true,
+  },
+  patch: {
+    automerge: true,
+  },
+  packageRules: [
+    {
+      matchPackagePatterns: [
+        'aws-sdk',
       ],
-      rollbackPrs: true,
-      versioning: 'npm'
+      groupName: 'aws-sdk',
+      commitMessageTopic: '☁️ terraform update {{depName}}',
+      prPriority: -1,
     },
-    terraform: {
-      commitMessageTopic: '⬆️ terraform update {{depName}}',
-      enabled: true
+    {
+      matchPaths: [
+        'magefiles',
+      ],
+      groupName: 'mage-tooling',
+      commitMessageTopic: '🤖 mage tooling',
+      automerge: true,
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      prPriority: -1,
     },
-    packageRules: [
-      {
-        matchPackagePatterns: [
-          'aws-sdk'
-        ],
-        groupName: 'aws-sdk',
-        commitMessageTopic: '☁️ terraform update {{depName}}'
+    {
+      matchPackagePatterns: [
+        'github.com/magefile/mage',
+        'github.com/sheldonhull/magetools',
+        'github.com/bitfield/script',
+        'github.com/pterm/pterm',
+      ],
+      groupName: 'mage-tooling',
+      commitMessageTopic: '🤖 mage tooling',
+      automerge: true,
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      prPriority: -1,
+    },
+    {
+      matchPackagePatterns: [
+        'golang.org/x',
+      ],
+      groupName: 'go-x',
+      commitMessageTopic: 'golang.org/x packages',
+      automerge: true,
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      prPriority: -1,
+    },
+    {
+      matchPaths: [
+        '.github',
+      ],
+      matchManagers: [
+        'github-actions',
+      ],
+      groupName: 'github-actions',
+      automerge: true,
+      commitMessageTopic: '🤖 github actions',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        'digest',
+        'pin',
+        'pinDigest',
+      ],
+      prPriority: -1,
+      prBodyDefinitions: {
+        Package: '[{{{depName}}}](https://github.com/{{{depName}}})',
+        Change: '[`{{{displayFrom}}}` -> `{{{displayTo}}}`](https://github.com/{{{depName}}}/compare/{{{displayFrom}}}...{{{displayTo}}})',
       },
-      {
-        matchPaths: [
-          'magefiles'
-        ],
-        groupName: 'mage-tooling-magetools',
-        commitMessageTopic: '☁️ magefiles {{depName}}',
-        matchUpdateTypes: ['minor', 'patch']
-      },
-      {
-        matchPackagePatterns: [
-          'github.com/sheldonhull/magetools'
-        ],
-        groupName: 'mage-tooling-magetools',
-        commitMessageTopic: '🤖 magetools {{depName}}',
-        automerge: true,
-        matchUpdateTypes: ['minor', 'patch']
-      },
-      {
-        matchPaths: [
-          '.github'
-        ],
-        groupName: 'github-actions',
-        automerge: true,
-        commitMessageTopic: '🤖 github actions {{depName}}',
-        matchUpdateTypes: ['minor', 'patch']
-      },
-      {
-        matchManagers: [
-          'npm'
-        ],
-        matchDepTypes: [
-          'devDependencies'
-        ],
-        enabled: true,
-        groupName: 'npm-devdependencies',
-        stabilityDays: 5
-      },
-      {
-        matchDatasources: [
-          'npm'
-        ],
-        stabilityDays: 5
-      },
-      {
-        description: 'Opt-out minimum Go version updates: https://github.com/renovatebot/renovate/issues/16715',
-        matchManagers: [
-          'gomod'
-        ],
-        matchDepTypes: [
-          'golang'
-        ],
-        enabled: false
-      },
-      {
-        matchPaths: [
-          'aqua.yaml',
-          'registry.yaml',
-          'private_dot_config/aqua/registry.yaml',
-          'private_dot_config/aqua/registry.yaml'
-        ],
-        groupName: 'aqua-packages',
-        automerge: true,
-        commitMessageTopic: '🤖 aqua tooling',
-        matchUpdateTypes: ['minor', 'patch']
-      }
-    ]
-  }
+      prBodyColumns: [
+        'Package',
+        'Change',
+        'Type',
+        'Update',
+      ],
+    },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchDepTypes: [
+        'devDependencies',
+      ],
+      enabled: true,
+      groupName: 'npm-devdependencies',
+      stabilityDays: 5,
+    },
+    {
+      matchDatasources: [
+        'npm',
+      ],
+      stabilityDays: 5,
+      prPriority: 0,
+    },
+    {
+      description: 'Opt-out minimum Go version updates: https://github.com/renovatebot/renovate/issues/16715',
+      matchManagers: [
+        'gomod',
+      ],
+      matchDepTypes: [
+        'golang',
+      ],
+      enabled: false,
+    },
+    {
+      matchPaths: [
+        'aqua.yaml',
+        'registry.yaml',
+        'private_dot_config/aqua/registry.yaml',
+        'private_dot_config/aqua/registry.yaml',
+      ],
+      groupName: 'aqua-packages',
+      automerge: true,
+      commitMessageTopic: '🤖 aqua tooling',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      prPriority: -1,
+    },
+  ],
+}
