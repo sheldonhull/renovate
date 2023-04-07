@@ -30,7 +30,7 @@
     'gomodTidy',
     'gomodUpdateImportPaths',
   ],
-  prCreation: 'not-pending',
+  prCreation: 'immediate',
   onboardingPrTitle: 'chore(deps): onboard with renovate',
   gomod: {
     enabled: true,
