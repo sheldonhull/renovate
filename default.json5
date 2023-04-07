@@ -15,7 +15,7 @@
   labels: [
     'dependencies',
   ],
-  prBodyNotes: '<!-- copilot:all -->'
+  prBodyNotes: '<!-- copilot:all -->',
   binarySource: 'docker',
   semanticCommits: 'enabled',
   pruneStaleBranches: true,
