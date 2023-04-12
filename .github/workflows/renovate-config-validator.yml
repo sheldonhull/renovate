@@ -14,7 +14,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+      - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3
       - uses: suzuki-shunsuke/github-action-renovate-config-validator@b7cd2b598bb51d071a2474e98f55cc25f91abec1 # v0.1.3
         with:
           config_file_path: renovate.json5
