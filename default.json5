@@ -11,6 +11,8 @@
     'regexManagers:dockerfileVersions',
     ':enableVulnerabilityAlerts',
     'group:linters',
+    ':combinePatchMinorReleases',
+    ':disablePrControls'
   ],
   labels: [
     'dependencies',
