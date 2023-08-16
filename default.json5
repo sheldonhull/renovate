@@ -17,7 +17,7 @@
     ":enableVulnerabilityAlerts",
     "group:linters"
     ':combinePatchMinorReleases',
-    'github>sheldonhull/renovate:group-by-manager.json5'
+    'github>sheldonhull/renovate:group-by-manager.json'
   ],
   "labels": ["dependencies"],
   "dependencyDashboardLabels": ["dependencies"],
