@@ -1,0 +1,71 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchManagers": ["regex"],
+      "groupName": "regex",
+      "commitMessageTopic": "⬆️ regex matched resources",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["dockerfile", "docker-compose"],
+      "groupName": "docker",
+      "commitMessageTopic": "⬆️ docker",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["gomod"],
+      "groupName": "gomod",
+      "commitMessageTopic": "⬆️ gomod",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["nodenv", "npm"],
+      "groupName": "npm",
+      "commitMessageTopic": "⬆️ node, npm",
+      "automerge": true
+    },
+    {
+      "matchManagers": [
+        "terraform",
+        "terraform-version",
+        "terragrunt",
+        "terragrunt-version",
+        "tflint-plugin"
+      ],
+      "groupName": "terraform",
+      "commitMessageTopic": "⬆️ terraform",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["nuget"],
+      "groupName": "nuget",
+      "commitMessageTopic": "⬆️ nuget",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions",
+      "commitMessageTopic": "⬆️ github-actions",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["azure-pipelines"],
+      "groupName": "azure-pipelines",
+      "commitMessageTopic": "⬆️ azure-pipeline",
+      "automerge": true
+    },
+    {
+      "matchPaths": [
+        "aqua.yaml",
+        "registry.yaml",
+        ".aqua/aqua.yaml",
+        ".aqua/registry.yaml"
+      ],
+      "groupName": "⬆️ aqua-packages",
+      "commitMessageTopic": "⬆️ aqua-packages",
+      "prPriority": -1,
+      "automerge": true
+    }
+  ]
+}
