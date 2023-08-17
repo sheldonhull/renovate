@@ -10,7 +10,8 @@
     'schedule:earlyMondays',
     ':semanticCommitTypeAll(chore)',
     'github>whitesource/merge-confidence:beta',
-    'github>aquaproj/aqua-renovate-config#1.2.6',
+    'github>aquaproj/aqua-renovate-config#1.5.2',
+    //'github>aquaproj/aqua-renovate-config:installer-script#1.5.2(.*Dockerfile)',
     'helpers:pinGitHubActionDigests',
     'regexManagers:githubActionsVersions',
     'regexManagers:dockerfileVersions',
@@ -26,6 +27,7 @@
     'dependencies',
   ],
   prBodyNotes: 'copilot:all',
+  prBodyTemplate: '{{{header}}}{{{table}}}{{{warnings}}}{{{notes}}}{{{url}}}{{{configDescription}}}{{{controls}}}{{{footer}}}'
   binarySource: 'docker',
   semanticCommits: 'enabled',
   pruneStaleBranches: true,
