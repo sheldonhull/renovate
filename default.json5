@@ -11,7 +11,7 @@
     ':semanticCommitTypeAll(chore)',
     'github>whitesource/merge-confidence:beta',
     'github>aquaproj/aqua-renovate-config#1.5.2',
-    'github>aquaproj/aqua-renovate-config:installer-script#1.5.2(.*Dockerfile)',
+    //'github>aquaproj/aqua-renovate-config:installer-script#1.5.2(.*Dockerfile)',
     'helpers:pinGitHubActionDigests',
     'regexManagers:githubActionsVersions',
     'regexManagers:dockerfileVersions',
