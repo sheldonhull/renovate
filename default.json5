@@ -74,14 +74,11 @@
     commitMessageTopic: '⬆️ terraform update {{depName}}',
     enabled: true,
   },
+  autoApprove: true, // approve everything except major changes
+  automerge: true,
   major: {
     dependencyDashboardApproval: true,
-  },
-  minor: {
-    automerge: true,
-  },
-  patch: {
-    automerge: true,
+    autoApprove: false
   },
   osvVulnerabilityAlerts: true,
   packageRules: [
