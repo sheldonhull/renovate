@@ -26,7 +26,6 @@
   dependencyDashboardLabels: [
     'dependencies',
   ],
-  prBodyNotes: 'copilot:all',
   prBodyTemplate: '{{{header}}}{{{table}}}{{{warnings}}}{{{notes}}}{{{url}}}{{{configDescription}}}{{{controls}}}{{{footer}}}',
   binarySource: 'docker',
   semanticCommits: 'enabled',
