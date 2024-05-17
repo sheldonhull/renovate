@@ -2,25 +2,51 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchManagers": ["regex"],
+      "matchManagers": [
+        "regex"
+      ],
       "groupName": "regex",
       "commitMessageTopic": "⬆️ regex matched resources",
       "automerge": true
     },
     {
-      "matchManagers": ["dockerfile", "docker-compose"],
+      "matchManagers": [
+        "dockerfile",
+        "docker-compose"
+      ],
       "groupName": "docker",
       "commitMessageTopic": "⬆️ docker",
       "automerge": true
     },
     {
-      "matchManagers": ["gomod"],
-      "groupName": "gomod",
-      "commitMessageTopic": "⬆️ gomod",
-      "automerge": true
+      "matchManagers": [
+        "gomod"
+      ],
+      "description": "reduce noise by grouping all gomod patch, minor, and digest changes together",
+      "commitMessageTopic": "⬆️ gomod patching",
+      "groupName": "gomod-patch-and-minor",
+      "matchUpdateTypes": [
+        "patch",
+        "minor",
+        "digest"
+      ]
     },
     {
-      "matchManagers": ["nodenv", "npm"],
+      "matchManagers": [
+        "gomod"
+      ],
+      "description": "reduce noise by grouping all gomod major changes together",
+      "commitMessageTopic": "⬆️ gomod major",
+      "groupName": "gomod-major",
+      "matchUpdateTypes": [
+        "major"
+      ]
+    },
+    {
+      "matchManagers": [
+        "nodenv",
+        "npm"
+      ],
       "groupName": "npm",
       "commitMessageTopic": "⬆️ node, npm",
       "automerge": true
@@ -38,19 +64,25 @@
       "automerge": true
     },
     {
-      "matchManagers": ["nuget"],
+      "matchManagers": [
+        "nuget"
+      ],
       "groupName": "nuget",
       "commitMessageTopic": "⬆️ nuget",
       "automerge": true
     },
     {
-      "matchManagers": ["github-actions"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "groupName": "github-actions",
       "commitMessageTopic": "⬆️ github-actions",
       "automerge": true
     },
     {
-      "matchManagers": ["azure-pipelines"],
+      "matchManagers": [
+        "azure-pipelines"
+      ],
       "groupName": "azure-pipelines",
       "commitMessageTopic": "⬆️ azure-pipeline",
       "automerge": true
