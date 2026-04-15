@@ -9,7 +9,7 @@
     'workarounds:all',
     'schedule:earlyMondays',
     ':semanticCommitTypeAll(chore)',
-    'github>whitesource/merge-confidence:beta',
+    'mergeConfidence:all-badges',
     'github>aquaproj/aqua-renovate-config#1.13.0',
     'github>aquaproj/aqua-renovate-config:installer-script#1.13.0(scripts/.*\\.sh)',
     'github>aquaproj/aqua-renovate-config:installer-script#1.13.0(netlify\\.toml)',
@@ -29,7 +29,7 @@
     'dependencies',
   ],
   prBodyTemplate: '{{{header}}}{{{table}}}{{{warnings}}}{{{notes}}}{{{url}}}{{{configDescription}}}{{{controls}}}{{{footer}}}',
-  binarySource: 'docker',
+  binarySource: 'install',
   semanticCommits: 'enabled',
   pruneStaleBranches: true,
   rebaseWhen: 'behind-base-branch',
@@ -77,14 +77,10 @@
     enabled: true,
     commitMessageTopic: '⬆️ golang module {{depName}}',
   },
-  docker: {
-    enabled: true,
-    commitMessageTopic: '⬆️ docker update 🐳 {{depName}}',
-  },
   npm: {
     commitMessageTopic: '⬆️ npm update {{depName}}',
-    fileMatch: [
-      '(^|/)package.json$',
+    managerFilePatterns: [
+      '/(^|/)package.json$/',
     ],
     rollbackPrs: true,
     versioning: 'npm',
@@ -95,16 +91,24 @@
   },
   packageRules: [
     {
-      matchPackagePatterns: [
-        'aws-sdk',
+      description: 'Customize commit topic for the docker category (replaces top-level docker.commitMessageTopic).',
+      matchCategories: [
+        'docker',
       ],
+      enabled: true,
+      commitMessageTopic: '⬆️ docker update 🐳 {{depName}}',
+    },
+    {
       groupName: 'aws-sdk',
       commitMessageTopic: '☁️ aws sdk {{depName}}',
       prPriority: -1,
+      matchPackageNames: [
+        '/aws-sdk/',
+      ],
     },
     {
-      matchPaths: [
-        'magefiles',
+      matchFileNames: [
+        'magefiles/**',
       ],
       groupName: 'mage-tooling',
       commitMessageTopic: '🤖 mage tooling',
@@ -115,12 +119,6 @@
       prPriority: -1,
     },
     {
-      matchPackagePatterns: [
-        'github.com/magefile/mage',
-        'github.com/sheldonhull/magetools',
-        'github.com/bitfield/script',
-        'github.com/pterm/pterm',
-      ],
       groupName: 'mage-tooling',
       commitMessageTopic: '🤖 mage tooling',
       matchUpdateTypes: [
@@ -128,11 +126,14 @@
         'patch',
       ],
       prPriority: -1,
+      matchPackageNames: [
+        '/github.com/magefile/mage/',
+        '/github.com/sheldonhull/magetools/',
+        '/github.com/bitfield/script/',
+        '/github.com/pterm/pterm/',
+      ],
     },
     {
-      matchPackagePatterns: [
-        'golang.org/x',
-      ],
       groupName: 'go-x',
       commitMessageTopic: 'golang.org/x packages',
       matchUpdateTypes: [
@@ -140,6 +141,9 @@
         'patch',
       ],
       prPriority: -1,
+      matchPackageNames: [
+        '/golang.org/x/',
+      ],
     },
     {
       description: 'Opt-out minimum Go version updates: https://github.com/renovatebot/renovate/issues/16715',
@@ -150,18 +154,6 @@
         'golang',
       ],
       enabled: false,
-    },
-    {
-      description: 'Major upgrades: require sheldonhull review and disable automerge',
-      matchUpdateTypes: [
-        'major',
-      ],
-      automerge: false,
-      autoApprove: false,
-      dependencyDashboardApproval: true,
-      reviewers: [
-        'sheldonhull',
-      ],
     },
   ],
 }

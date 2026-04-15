@@ -1,7 +1,7 @@
 [tools]
-node = "lts"
+node = "24.14.1"
 hk = "1.42.0"
-"npm:renovate" = "latest"
+"npm:renovate" = "43.123.4"
 
 [tasks.prepare]
 description = "Install required tools and configure git hooks (run once after clone)."

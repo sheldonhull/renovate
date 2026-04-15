@@ -57,7 +57,7 @@
         "pre-commit",
         "pub",
         "pyenv",
-        "regex",
+        "custom.regex",
         "ruby-version",
         "rubygems",
         "sbt",
@@ -135,7 +135,7 @@
         "pre-commit",
         "pub",
         "pyenv",
-        "regex",
+        "custom.regex",
         "ruby-version",
         "rubygems",
         "sbt",
@@ -156,7 +156,7 @@
     },
     {
       "description": "Group aqua tooling separately since it spans multiple files outside the manager taxonomy.",
-      "matchPaths": [
+      "matchFileNames": [
         "aqua.yaml",
         "registry.yaml",
         ".aqua/aqua.yaml",
