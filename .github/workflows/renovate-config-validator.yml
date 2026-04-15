@@ -10,11 +10,16 @@ on:
       - main
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
-      - uses: suzuki-shunsuke/github-action-renovate-config-validator@b54483862375f51910a60c4f498e927d4f3df466 # v1.0.1
+      - uses: jdx/mise-action@v4
         with:
-          config_file_path: renovate.json5
+          install: true
+          cache: true
+      - name: Validate Renovate config
+        run: mise run validate-renovate

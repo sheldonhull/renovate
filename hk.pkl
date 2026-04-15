@@ -1,0 +1,30 @@
+amends "package://github.com/jdx/hk/releases/download/v1.42.0/hk@1.42.0#/Config.pkl"
+
+// Pre-commit hooks. The renovate config validator runs whenever the
+// shared/extended Renovate JSON / JSON5 config files change.
+hooks {
+    ["pre-commit"] {
+        steps {
+            ["renovate-config-validator"] {
+                glob = List(
+                    "default.json5",
+                    "renovate.json5",
+                    "group-by-manager.json",
+                )
+                check = "mise run validate-renovate"
+            }
+        }
+    }
+    ["pre-push"] {
+        steps {
+            ["renovate-config-validator"] {
+                glob = List(
+                    "default.json5",
+                    "renovate.json5",
+                    "group-by-manager.json",
+                )
+                check = "mise run validate-renovate"
+            }
+        }
+    }
+}

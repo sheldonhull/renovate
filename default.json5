@@ -1,7 +1,7 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    'config:base',
+    'config:recommended',
     ':dependencyDashboard',
     ':semanticPrefixFixDepsChoreOthers',
     ':ignoreModulesAndTests',
@@ -16,8 +16,6 @@
     'github>aquaproj/aqua-renovate-config:installer-script#1.13.0(.*Dockerfile)',
     'github>aquaproj/aqua-renovate-config:aqua-renovate-config#1.13.0(default\\.json5)',
     'helpers:pinGitHubActionDigests',
-    'regexManagers:githubActionsVersions',
-    'regexManagers:dockerfileVersions',
     ':enableVulnerabilityAlerts',
     'group:linters',
     ':combinePatchMinorReleases',
@@ -26,6 +24,7 @@
   labels: [
     'dependencies',
   ],
+  dependencyDashboard: true,
   dependencyDashboardLabels: [
     'dependencies',
   ],
@@ -36,8 +35,6 @@
   rebaseWhen: 'behind-base-branch',
   semanticCommitType: 'chore',
   semanticCommitScope: 'deps',
-  platformAutomerge: true,
-  automergeStrategy: 'squash',
   unicodeEmoji: true,
   rangeStrategy: 'pin',
   postUpdateOptions: [
@@ -46,14 +43,22 @@
   ],
   prCreation: 'immediate',
   onboardingPrTitle: 'chore(deps): onboard with renovate',
-  gomod: {
-    enabled: true,
-    commitMessageTopic: '⬆️ golang module {{depName}}',
+  // Defaults: auto-approve, automerge, squash strategy, 7 day stability window
+  autoApprove: true,
+  automerge: true,
+  automergeStrategy: 'squash',
+  platformAutomerge: true,
+  minimumReleaseAge: '7 days',
+  // Major changes require manual approval and review from sheldonhull
+  major: {
+    dependencyDashboardApproval: true,
+    autoApprove: false,
+    automerge: false,
+    reviewers: [
+      'sheldonhull',
+    ],
   },
-  docker: {
-    enabled: true,
-    commitMessageTopic: '⬆️ docker update 🐳 {{depName}}',
-  },
+  // Security updates: always approved + automerged with squash, no stability wait
   vulnerabilityAlerts: {
     enabled: true,
     prCreation: 'immediate',
@@ -62,7 +67,19 @@
     ],
     minimumReleaseAge: null,
     dependencyDashboardApproval: false,
+    autoApprove: true,
+    automerge: true,
+    automergeStrategy: 'squash',
     schedule: [],
+  },
+  osvVulnerabilityAlerts: true,
+  gomod: {
+    enabled: true,
+    commitMessageTopic: '⬆️ golang module {{depName}}',
+  },
+  docker: {
+    enabled: true,
+    commitMessageTopic: '⬆️ docker update 🐳 {{depName}}',
   },
   npm: {
     commitMessageTopic: '⬆️ npm update {{depName}}',
@@ -76,20 +93,13 @@
     commitMessageTopic: '⬆️ terraform update {{depName}}',
     enabled: true,
   },
-  autoApprove: true, // approve everything except major changes
-  automerge: true,
-  major: {
-    dependencyDashboardApproval: true,
-    autoApprove: false
-  },
-  osvVulnerabilityAlerts: true,
   packageRules: [
     {
       matchPackagePatterns: [
         'aws-sdk',
       ],
       groupName: 'aws-sdk',
-      commitMessageTopic: '☁️ terraform update {{depName}}',
+      commitMessageTopic: '☁️ aws sdk {{depName}}',
       prPriority: -1,
     },
     {
@@ -98,7 +108,6 @@
       ],
       groupName: 'mage-tooling',
       commitMessageTopic: '🤖 mage tooling',
-      automerge: true,
       matchUpdateTypes: [
         'minor',
         'patch',
@@ -114,7 +123,6 @@
       ],
       groupName: 'mage-tooling',
       commitMessageTopic: '🤖 mage tooling',
-      automerge: true,
       matchUpdateTypes: [
         'minor',
         'patch',
@@ -127,59 +135,11 @@
       ],
       groupName: 'go-x',
       commitMessageTopic: 'golang.org/x packages',
-      automerge: true,
       matchUpdateTypes: [
         'minor',
         'patch',
       ],
       prPriority: -1,
-    },
-    {
-      matchPaths: [
-        '.github',
-      ],
-      matchManagers: [
-        'github-actions',
-      ],
-      groupName: 'github-actions',
-      automerge: true,
-      commitMessageTopic: '🤖 github actions',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-        'digest',
-        'pin',
-        'pinDigest',
-      ],
-      prPriority: -1,
-      prBodyDefinitions: {
-        Package: '[{{{depName}}}](https://github.com/{{{depName}}})',
-        Change: '[`{{{displayFrom}}}` -> `{{{displayTo}}}`](https://github.com/{{{depName}}}/compare/{{{displayFrom}}}...{{{displayTo}}})',
-      },
-      prBodyColumns: [
-        'Package',
-        'Change',
-        'Type',
-        'Update',
-      ],
-    },
-    {
-      matchManagers: [
-        'npm',
-      ],
-      matchDepTypes: [
-        'devDependencies',
-      ],
-      enabled: true,
-      groupName: 'npm-devdependencies',
-      stabilityDays: 5,
-    },
-    {
-      matchDatasources: [
-        'npm',
-      ],
-      stabilityDays: 5,
-      prPriority: 0,
     },
     {
       description: 'Opt-out minimum Go version updates: https://github.com/renovatebot/renovate/issues/16715',
@@ -192,20 +152,16 @@
       enabled: false,
     },
     {
-      matchPaths: [
-        'aqua.yaml',
-        'registry.yaml',
-        'private_dot_config/aqua/registry.yaml',
-        'private_dot_config/aqua/registry.yaml',
-      ],
-      groupName: 'aqua-packages',
-      automerge: true,
-      commitMessageTopic: '🤖 aqua tooling',
+      description: 'Major upgrades: require sheldonhull review and disable automerge',
       matchUpdateTypes: [
-        'minor',
-        'patch',
+        'major',
       ],
-      prPriority: -1,
+      automerge: false,
+      autoApprove: false,
+      dependencyDashboardApproval: true,
+      reviewers: [
+        'sheldonhull',
+      ],
     },
   ],
 }
