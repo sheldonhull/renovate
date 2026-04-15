@@ -1,0 +1,19 @@
+[tools]
+node = "24.14.1"
+hk = "1.42.0"
+"npm:renovate" = "43.123.4"
+
+[tasks.prepare]
+description = "Install required tools and configure git hooks (run once after clone)."
+run = [
+  "mise install",
+  "hk install",
+]
+
+[tasks.validate-renovate]
+description = "Validate Renovate configuration files using the renovate-config-validator CLI."
+run = "renovate-config-validator --strict default.json5 renovate.json5 group-by-manager.json"
+
+[tasks.check]
+description = "Run all pre-commit checks (renovate config validation)."
+run = "hk check --all"

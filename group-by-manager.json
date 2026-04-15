@@ -1,103 +1,170 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Default grouping strategy: collapse updates by provider/manager so PRs are organized by ecosystem.",
   "packageRules": [
     {
+      "description": "Group all non-major updates by manager so each provider gets a single PR per cycle.",
       "matchManagers": [
-        "regex"
-      ],
-      "groupName": "regex",
-      "commitMessageTopic": "⬆️ regex matched resources",
-      "automerge": true
-    },
-    {
-      "matchManagers": [
+        "ansible",
+        "ansible-galaxy",
+        "argocd",
+        "asdf",
+        "azure-pipelines",
+        "bazel",
+        "bicep",
+        "bundler",
+        "cake",
+        "cargo",
+        "circleci",
+        "cloudbuild",
+        "composer",
+        "deps-edn",
+        "docker-compose",
         "dockerfile",
-        "docker-compose"
-      ],
-      "groupName": "docker",
-      "commitMessageTopic": "⬆️ docker",
-      "automerge": true
-    },
-    {
-      "matchManagers": [
-        "gomod"
-      ],
-      "description": "reduce noise by grouping all gomod patch, minor, and digest changes together",
-      "commitMessageTopic": "⬆️ gomod patching",
-      "groupName": "gomod-patch-and-minor",
-      "matchUpdateTypes": [
-        "patch",
-        "minor",
-        "digest"
-      ]
-    },
-    {
-      "matchManagers": [
-        "gomod"
-      ],
-      "description": "reduce noise by grouping all gomod major changes together",
-      "commitMessageTopic": "⬆️ gomod major",
-      "groupName": "gomod-major",
-      "matchUpdateTypes": [
-        "major"
-      ]
-    },
-    {
-      "matchManagers": [
+        "droneci",
+        "flux",
+        "git-submodules",
+        "github-actions",
+        "gitlabci",
+        "gitlabci-include",
+        "gomod",
+        "gradle",
+        "gradle-wrapper",
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmv3",
+        "hermit",
+        "homebrew",
+        "html",
+        "jenkins",
+        "jsonnet-bundler",
+        "kubernetes",
+        "kustomize",
+        "leiningen",
+        "maven",
+        "mix",
         "nodenv",
-        "npm"
-      ],
-      "groupName": "npm",
-      "commitMessageTopic": "⬆️ node, npm",
-      "automerge": true
-    },
-    {
-      "matchManagers": [
+        "npm",
+        "nuget",
+        "nvm",
+        "pep621",
+        "pip-compile",
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "pre-commit",
+        "pub",
+        "pyenv",
+        "custom.regex",
+        "ruby-version",
+        "rubygems",
+        "sbt",
+        "setup-cfg",
+        "swift",
         "terraform",
         "terraform-version",
         "terragrunt",
         "terragrunt-version",
-        "tflint-plugin"
+        "tflint-plugin",
+        "travis"
       ],
-      "groupName": "terraform",
-      "commitMessageTopic": "⬆️ terraform",
-      "automerge": true
+      "matchUpdateTypes": [
+        "patch",
+        "minor",
+        "digest",
+        "pin",
+        "pinDigest"
+      ],
+      "groupName": "{{manager}} non-major",
+      "commitMessageTopic": "⬆️ {{manager}} (non-major)"
     },
     {
+      "description": "Group all major updates by manager so reviewer focus stays scoped to one provider per PR.",
       "matchManagers": [
-        "nuget"
+        "ansible",
+        "ansible-galaxy",
+        "argocd",
+        "asdf",
+        "azure-pipelines",
+        "bazel",
+        "bicep",
+        "bundler",
+        "cake",
+        "cargo",
+        "circleci",
+        "cloudbuild",
+        "composer",
+        "deps-edn",
+        "docker-compose",
+        "dockerfile",
+        "droneci",
+        "flux",
+        "git-submodules",
+        "github-actions",
+        "gitlabci",
+        "gitlabci-include",
+        "gomod",
+        "gradle",
+        "gradle-wrapper",
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmv3",
+        "hermit",
+        "homebrew",
+        "html",
+        "jenkins",
+        "jsonnet-bundler",
+        "kubernetes",
+        "kustomize",
+        "leiningen",
+        "maven",
+        "mix",
+        "nodenv",
+        "npm",
+        "nuget",
+        "nvm",
+        "pep621",
+        "pip-compile",
+        "pip_requirements",
+        "pip_setup",
+        "pipenv",
+        "poetry",
+        "pre-commit",
+        "pub",
+        "pyenv",
+        "custom.regex",
+        "ruby-version",
+        "rubygems",
+        "sbt",
+        "setup-cfg",
+        "swift",
+        "terraform",
+        "terraform-version",
+        "terragrunt",
+        "terragrunt-version",
+        "tflint-plugin",
+        "travis"
       ],
-      "groupName": "nuget",
-      "commitMessageTopic": "⬆️ nuget",
-      "automerge": true
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": "{{manager}} major",
+      "commitMessageTopic": "⬆️ {{manager}} (major)"
     },
     {
-      "matchManagers": [
-        "github-actions"
-      ],
-      "groupName": "github-actions",
-      "commitMessageTopic": "⬆️ github-actions",
-      "automerge": true
-    },
-    {
-      "matchManagers": [
-        "azure-pipelines"
-      ],
-      "groupName": "azure-pipelines",
-      "commitMessageTopic": "⬆️ azure-pipeline",
-      "automerge": true
-    },
-    {
-      "matchPaths": [
+      "description": "Group aqua tooling separately since it spans multiple files outside the manager taxonomy.",
+      "matchFileNames": [
         "aqua.yaml",
         "registry.yaml",
         ".aqua/aqua.yaml",
         ".aqua/registry.yaml"
       ],
-      "groupName": "⬆️ aqua-packages",
+      "groupName": "aqua-packages",
       "commitMessageTopic": "⬆️ aqua-packages",
-      "prPriority": -1,
-      "automerge": true
+      "prPriority": -1
     }
   ]
 }
