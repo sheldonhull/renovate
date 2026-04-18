@@ -7,7 +7,7 @@ hk = "1.42.0"
 description = "Install required tools and configure git hooks (run once after clone)."
 run = [
   "mise install",
-  "hk install",
+  "hk install --mise",
 ]
 
 [tasks.validate-renovate]
