@@ -1,6 +1,6 @@
 [tools]
 node = "24.14.1"
-hk = "1.42.0"
+hk = "1.43.0"
 "npm:renovate" = "43.123.4"
 
 [tasks.prepare]
