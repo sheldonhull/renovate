@@ -8,7 +8,7 @@
     'replacements:all',
     'workarounds:all',
     'schedule:earlyMondays',
-    ':semanticCommitTypeAll(chore)',
+    ':semanticCommitTypeAll(build)',
     'mergeConfidence:all-badges',
     'github>aquaproj/aqua-renovate-config#1.13.0',
     'github>aquaproj/aqua-renovate-config:installer-script#1.13.0(scripts/.*\\.sh)',
