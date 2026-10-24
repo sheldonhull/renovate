@@ -1,7 +1,8 @@
 [tools]
 node = "24.15.0"
 hk = "1.44.2"
-"npm:renovate" = "43.150.0"
+# libzip 3.2.2 matches Yarn's release source but lacks 3.2.0's npm provenance.
+"npm:renovate" = { version = "43.150.0", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
 
 [tasks.prepare]
 description = "Install required tools and configure git hooks (run once after clone)."
