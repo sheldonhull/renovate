@@ -3,12 +3,9 @@
   extends: [
     'config:recommended',
     ':dependencyDashboard',
-    ':semanticPrefixFixDepsChoreOthers',
     ':ignoreModulesAndTests',
     'replacements:all',
     'workarounds:all',
-    'schedule:earlyMondays',
-    ':semanticCommitTypeAll(build)',
     'mergeConfidence:all-badges',
     'github>aquaproj/aqua-renovate-config#1.13.0',
     'github>aquaproj/aqua-renovate-config:installer-script#1.13.0(scripts/.*\\.sh)',
@@ -33,7 +30,11 @@
   semanticCommits: 'enabled',
   pruneStaleBranches: true,
   rebaseWhen: 'behind-base-branch',
-  semanticCommitType: 'chore',
+  schedule: [
+    '* 0-3 * * 1',
+  ],
+  updateNotScheduled: false,
+  semanticCommitType: 'build',
   semanticCommitScope: 'deps',
   unicodeEmoji: true,
   rangeStrategy: 'pin',
@@ -42,7 +43,7 @@
     'gomodUpdateImportPaths',
   ],
   prCreation: 'immediate',
-  onboardingPrTitle: 'chore(deps): onboard with renovate',
+  onboardingPrTitle: 'build(deps): onboard with renovate',
   // Defaults: auto-approve, automerge, squash strategy, 7 day stability window
   autoApprove: true,
   automerge: true,
@@ -71,6 +72,7 @@
     automerge: true,
     automergeStrategy: 'squash',
     schedule: [],
+    groupName: null,
   },
   osvVulnerabilityAlerts: true,
   gomod: {
@@ -99,7 +101,6 @@
       commitMessageTopic: '⬆️ docker update 🐳 {{depName}}',
     },
     {
-      groupName: 'aws-sdk',
       commitMessageTopic: '☁️ aws sdk {{depName}}',
       prPriority: -1,
       matchPackageNames: [
@@ -110,7 +111,6 @@
       matchFileNames: [
         'magefiles/**',
       ],
-      groupName: 'mage-tooling',
       commitMessageTopic: '🤖 mage tooling',
       matchUpdateTypes: [
         'minor',
@@ -119,7 +119,6 @@
       prPriority: -1,
     },
     {
-      groupName: 'mage-tooling',
       commitMessageTopic: '🤖 mage tooling',
       matchUpdateTypes: [
         'minor',
@@ -134,7 +133,6 @@
       ],
     },
     {
-      groupName: 'go-x',
       commitMessageTopic: 'golang.org/x packages',
       matchUpdateTypes: [
         'minor',
